@@ -1,0 +1,58 @@
+public class ArrayQueue<T> implements Queue<T> {
+
+    T[] array;       // queue elements// number of elements on queue
+    int first;      // index of first element of queue
+    int last;       // index of next available slot
+
+    //Initializes an empty queue.
+    ArrayQueue() {
+        array = (T[]) new Object[10];
+        first = 0;
+        last = 0;
+    }
+
+    public void enqueue(T item){
+      if(last > array.length - 1) {
+          shift();
+      }
+      array[last++]=item;
+    }
+
+    public T dequeue(){
+        if (empty()){
+            throw new IndexOutOfBoundsException();
+        }
+        return array[first++];
+    }
+
+    public boolean empty(){
+        if (first == last){
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void shift(){
+        if (first == 0){
+            increaseCapacity();
+        }
+        else{
+            T[] temp = array;
+            array = (T[]) new Object(temp.length*2);
+            for (int i = 0; i < temp.length; i++){
+                array[i] = temp[i];
+            }
+            last = last - first;
+            first = 0;
+        }
+    }
+
+    void increaseCapacity(){
+        T[] temp = array;
+        array = (T[]) new Object[temp.length*2];
+        for (int i = 0; i < temp.length; i++) {
+            array[i] = temp[i];
+        }
+    }
+}
